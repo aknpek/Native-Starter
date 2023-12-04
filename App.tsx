@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import MainNavigator from "./src/navigations/MainNavigation";
+import { ThemeProvider } from "./src/context/theme/ThemeContext";
+import { LocalizationProvider } from "./src/context/locale/LocalizationContext";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "./src/utils/font/useFonts";
+import { fontMap } from "./src/utils/font/fontMap";
 
-export default function App() {
+const App = () => {
+  const isFontLoaded = useFonts(fontMap);
+
+  // If fonts aren't loaded, display the AppLoading screen
+  if (!isFontLoaded) {
+    return <AppLoading />;
+  }
+
+  // Once fonts are loaded, render your app's main content
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider>
+      <LocalizationProvider>
+        <MainNavigator />
+      </LocalizationProvider>
+    </ThemeProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
