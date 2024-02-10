@@ -5,10 +5,22 @@ type EntranceScreenNavigationProp = StackNavigationProp<
   "Entrance"
 >;
 
+type SignScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "SingUp",
+  "AlreadyMember"
+>;
+
 type RootStackParamList = {
   Entrance: undefined;
   SignIn: undefined;
+  SignUp: undefined;
+  AlreadyMember: undefined;
   // ... other routes
 };
 
-export { EntranceScreenNavigationProp, RootStackParamList };
+export {
+  EntranceScreenNavigationProp,
+  RootStackParamList,
+  SignScreenNavigationProp,
+};

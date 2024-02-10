@@ -3,14 +3,14 @@ import { View, Text } from "react-native";
 import LottieView from "lottie-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { EntranceScreenNavigationProp } from "../../types/navigation";
-import getStyles from "./styles";
+import getStyles from "../../components/button/styles";
 import { useTheme } from "../../context/theme/useTheme"; // Adjust path as needed
+import styles from "./styles";
 
 const EntranceScreen = () => {
   const navigation = useNavigation<EntranceScreenNavigationProp>();
   const { theme } = useTheme(); // Use the theme hook
-  const styles = getStyles(theme); // Pass the theme to get styles
-
+  const themeStyles = getStyles(theme); // Pass the theme to get styles
 
   useEffect(() => {
     // This simulates the delay for the animation.
