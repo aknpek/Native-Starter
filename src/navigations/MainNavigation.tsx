@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 const MainNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Entrance">
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="Entrance"
           component={EntranceScreen}
@@ -30,7 +30,7 @@ const MainNavigator = () => {
         />
         <Stack.Screen
           name="Home"
-          component={SignUpScreen}
+          component={Home}
           options={{ headerShown: false, gestureEnabled: true }}
         />
       </Stack.Navigator>
