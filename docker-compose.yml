@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    hostname: localstack
+    ports:
+      - "127.0.0.1:4566:4566" # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559" # external services port range
+      - "127.0.0.1:443:443" # LocalStack HTTPS Gateway
+
+    environment:
+      - SERVICES=lambda,s3,iam,dynamodb,apigateway
+      - LAMBDA_EXECUTOR=docker
+      - LAMBDA_RUNTIME_ENVIRONMENT_TIMEOUT=30
+      - DATA_DIR=/tmp/localstack/data
+      - DEBUG=1
+    volumes:
+      - ./backend:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - sharedNetwork
+
+  infra:
+    build:
+      context: .
+      dockerfile: ./backend/infra/Dockerfile
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - localstack
+    environment:
+      TF_VAR_s3_endpoint: http://localstack:4566
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      AWS_DEFAULT_REGION: eu-west-2
+    networks:
+      - sharedNetwork
+
+networks:
+  sharedNetwork:
+    driver: bridge
+
+volumes:
+  shared-data:

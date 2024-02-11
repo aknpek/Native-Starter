@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -15,13 +15,34 @@ type FreelancerCategoryProps = {
 
 const FreelancerCategory: React.FC<FreelancerCategoryProps> = ({ title }) => {
   // Ideally, you would fetch and map data from your backend or state management
+  const [info, setInfo] = useState(null); // Initialize state to hold your data
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      const response = await fetch(
+        "http://localhost:4566/restapis/xd1xbrvvrp/test/_user_request_/getInfo",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // Optionally, if needed for LocalStack or your application logic:
+          },
+        }
+      );
+      const jsonData = await response.json();
+      setInfo(jsonData["message"]); // Update state with the fetched data
+    };
+
+    fetchInfo(); // Call the async function within useEffect
+  }, []); // The empty array ensures this effect runs only once after initial render
+
   const renderFreelancers = () => {
     // Placeholder for freelancer rendering
     return [1, 2, 3].map((_, index) => (
       <View key={index} style={styles.freelancerCard}>
         <View style={styles.profilePicture} />
         <Text style={styles.freelancerName}>Name</Text>
-        <Text style={styles.freelancerStatus}>Online</Text>
+        <Text style={styles.freelancerStatus}>{info}</Text>
       </View>
     ));
   };
